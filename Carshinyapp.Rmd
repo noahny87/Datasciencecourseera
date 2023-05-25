@@ -1,0 +1,66 @@
+---
+title: "Car Data"
+output: 
+  flexdashboard::flex_dashboard:
+    theme:
+      bg: "#101010"
+      fg: "#FDF7F7" 
+      primary: "#ED79F9"
+      base_font:
+        google: Prompt
+      code_font:
+        google: JetBrains Mono
+    orientation: columns
+    vertical_layout: scroll
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+# Install thematic and un-comment for themed static plots (i.e., ggplot2)
+ #thematic::thematic_rmd()
+```
+
+Column {data-width=650 .tabset}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r echo=FALSE}
+library(readxl)
+library(writexl)
+d<- data.frame(mtcars)
+ write_xlsx(d,path ="mtcars.xlsx",col_names = TRUE, format_headers = TRUE,use_zip64 = FALSE)
+ print.data.frame(d)
+```
+Column{data-width 350 .tabset}
+
+### Chart B
+
+```{r  echo=FALSE}
+library(readxl)
+
+d<- try(as.vector(data.frame(read_excel("mtcars.xlsx",col_names = TRUE,range= NULL), mode = "numeric")))
+
+print(d)
+```
+
+column{data-width 350 }
+
+------------------------------------------------------------------------
+
+### Chart C
+
+```{r  echo=FALSE}
+library(ggplot2)
+d<- data.frame(mtcars)
+
+p<- ggplot(d)+geom_point(aes(x=mpg,y=cyl))
+print(p)
+```
+
+### Chart D
+
+```{r  echo=FALSE}
+print("this is my first shiny chart and is a test")
+```
+
